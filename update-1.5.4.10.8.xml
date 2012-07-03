@@ -13,8 +13,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US">
     <body>
         <ul>
-            <li>Added a new hidden preference (<strong>extensions.brief.feedview.preferUnreadViewOnLoad</strong>) for to prefer "Unread" as the default view after the Brief's opening.</li>
-            <li>Added licensing information. Upgrade to the Mozilla Public License (MPL) v. 2.0.</li>
+            <li>Added support for automatic updates.</li>
+            <li>Added traditional Chinese (zh-TW) translation. Credits to cxcaixinster.</li>
         </ul>
     </body>
 </html>
