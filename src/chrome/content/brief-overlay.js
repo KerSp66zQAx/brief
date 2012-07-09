@@ -199,8 +199,12 @@ const Brief = {
     },
 
     onButtonDropped: function Brief_onButtonDropped(aEvent) {
-        if (aEvent.dataTransfer.mozSourceNode.id == 'wrapper-brief-button')
+        if (aEvent.dataTransfer.mozSourceNode.id == 'wrapper-brief-button') {
+            let label = Brief.toolbarbutton.getElementsByClassName('toolbarbutton-text')[0];
+            label.value = Brief.toolbarbutton.label;
+
             Brief.updateStatus();
+        }
     },
 
     handleEvent: function Brief_handleEvent(aEvent) {
