@@ -172,9 +172,11 @@ FeedView.prototype = {
             return;
 
         if (PrefCache.entrySelectionEnabled) {
-            var entryElement = this.selectedElement.nextSibling;
-            if (entryElement)
-                this.selectEntry(parseInt(entryElement.id), true, true);
+            if (this.selectedElement) {
+                var entryElement = this.selectedElement.nextSibling;
+                if (entryElement)
+                    this.selectEntry(parseInt(entryElement.id), true, true);
+            }
         }
         else {
             Prefs.setBoolPref('feedview.entrySelectionEnabled', true);
@@ -186,9 +188,11 @@ FeedView.prototype = {
             return;
 
         if (PrefCache.entrySelectionEnabled) {
-            var entryElement = this.selectedElement.previousSibling;
-            if (entryElement)
-                this.selectEntry(parseInt(entryElement.id), true, true);
+            if (this.selectedElement) {
+                var entryElement = this.selectedElement.previousSibling;
+                if (entryElement)
+                    this.selectEntry(parseInt(entryElement.id), true, true);
+            }
         }
         else {
             Prefs.setBoolPref('feedview.entrySelectionEnabled', true);
@@ -236,52 +240,58 @@ FeedView.prototype = {
      */
     scrollToPrevEntry: function FeedView_scrollToPrevEntry(aSmooth) {
         var middleElement = this._getMiddleEntryElement();
-        if (middleElement)
+        if (middleElement) {
             var previousElement = middleElement.previousSibling;
-
-        if (previousElement)
-            this.scrollToEntry(parseInt(previousElement.id), true, aSmooth);
+            if (previousElement)
+                this.scrollToEntry(parseInt(previousElement.id), true, aSmooth);
+        }
     },
 
 
     // See scrollToPrevEntry.
     scrollToNextEntry: function FeedView_scrollToNextEntry(aSmooth) {
         var middleElement = this._getMiddleEntryElement();
-        if (middleElement)
+        if (middleElement) {
             var nextElement = middleElement.nextSibling;
-
-        if (nextElement)
-            this.scrollToEntry(parseInt(nextElement.id), true, aSmooth);
+            if (nextElement)
+                this.scrollToEntry(parseInt(nextElement.id), true, aSmooth);
+        }
     },
 
     /**
      * Scroll down by 10 entries, loading more entries if necessary.
      */
     skipDown: function FeedView_skipDown() {
-        var middleEntry = parseInt(this._getMiddleEntryElement().id);
-        var index = this._loadedEntries.indexOf(middleEntry);
-        if (index + 10 > this._loadedEntries.length - 1)
-            this._loadEntries(10);
+        var middleElement = this._getMiddleEntryElement();
+        if (middleElement) {
+            var middleEntry = parseInt(middleElement.id);
+            var index = this._loadedEntries.indexOf(middleEntry);
+            if (index + 10 > this._loadedEntries.length - 1)
+                this._loadEntries(10);
 
-        var targetEntry = this._loadedEntries[index + 10] ||
-                          this._loadedEntries[this._loadedEntries.length - 1];
+            var targetEntry = this._loadedEntries[index + 10] ||
+                              this._loadedEntries[this._loadedEntries.length - 1];
 
-        if (PrefCache.entrySelectionEnabled)
-            this.selectEntry(targetEntry, true, true);
-        else
-            this.scrollToEntry(targetEntry, true, true);
+            if (PrefCache.entrySelectionEnabled)
+                this.selectEntry(targetEntry, true, true);
+            else
+                this.scrollToEntry(targetEntry, true, true);
+        }
     },
 
     // See scrollDown.
     skipUp: function FeedView_skipUp() {
-        var middleEntry = parseInt(this._getMiddleEntryElement().id);
-        var index = this._loadedEntries.indexOf(middleEntry);
-        var targetEntry = this._loadedEntries[index - 10] || this._loadedEntries[0];
+        var middleElement = this._getMiddleEntryElement();
+        if (middleElement) {
+            var middleEntry = parseInt(middleElement.id);
+            var index = this._loadedEntries.indexOf(middleEntry);
+            var targetEntry = this._loadedEntries[index - 10] || this._loadedEntries[0];
 
-        if (PrefCache.entrySelectionEnabled)
-            this.selectEntry(targetEntry, true, true);
-        else
-            this.scrollToEntry(targetEntry, true, true);
+            if (PrefCache.entrySelectionEnabled)
+                this.selectEntry(targetEntry, true, true);
+            else
+                this.scrollToEntry(targetEntry, true, true);
+        }
     },
 
 
