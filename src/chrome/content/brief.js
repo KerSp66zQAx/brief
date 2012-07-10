@@ -18,8 +18,10 @@ Components.utils.import('resource://gre/modules/NetUtil.jsm');
 var gTemplateURI = NetUtil.newURI('resource://brief-content/feedview-template.html');
 var gStringBundle;
 
-// We save a reference to the Options window for reusing it
+// We save a reference to the sub-windows for reusing it
 var optionsWindow = null;
+var shortcutsWindow = null;
+
 
 function init() {
     PrefObserver.register();
@@ -294,11 +296,15 @@ var Commands = {
     },
 
     displayShortcuts: function cmd_displayShortcuts() {
-        var height = Math.min(window.screen.availHeight, 630);
-        var features = 'chrome,centerscreen,titlebar,resizable,width=500,height=' + height;
-        var url = 'chrome://brief/content/keyboard-shortcuts.xhtml';
+        if (shortcutsWindow && !shortcutsWindow.closed)
+            shortcutsWindow.focus();
+        else {
+            var height = Math.min(window.screen.availHeight, 630);
+            var features = 'chrome,centerscreen,titlebar,resizable,width=500,height=' + height;
+            var url = 'chrome://brief/content/keyboard-shortcuts.xhtml';
 
-        window.openDialog(url, 'Brief shortcuts', features);
+            shortcutsWindow = window.openDialog(url, 'Brief shortcuts', features);
+        }
     }
 }
 
