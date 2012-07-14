@@ -16,8 +16,16 @@
     list-style-image: url("chrome://brief/skin/toolbarbutton.png");
 }
 
+#brief-button[monochrome="true"] {
+    list-style-image: url("chrome://brief/skin/toolbarbutton-gray.png");
+}
+
 toolbar[iconsize="small"] #brief-button {
     list-style-image: url("chrome://brief/skin/feed-icon-16x16.png");
+}
+
+toolbar[iconsize="small"] #brief-button[monochrome="true"] {
+    list-style-image: url("chrome://brief/skin/feed-icon-16x16-gray.png");
 }
 
 toolbar[mode="icons"] #brief-status-counter {

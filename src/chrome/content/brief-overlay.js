@@ -110,17 +110,29 @@ const Brief = {
         var showCounter = Brief.prefs.getBoolPref('showUnreadCounter');
         Brief.statusCounterMenuitem.setAttribute('checked', showCounter);
 
-        if (showCounter) {
+        // Accepted values for monochromeToolbarbutton:
+        //   2         = Always use the monochrome icon
+        //   1         = Use only while there aren't unread items
+        //   0, other  = Never use
+        var monochrome = Brief.prefs.getIntPref('monochromeToolbarbutton');
+        var useMonochrome = monochrome == 2;
+
+        if (showCounter || monochrome == 1) {
             var query = new Brief.query({
                 deleted: Brief.storage.ENTRY_STATE_NORMAL,
                 read: false
             });
             var unreadEntriesCount = query.getEntryCount();
-
-            Brief.statusCounter.value = unreadEntriesCount;
-            showCounter = unreadEntriesCount != 0;
+            if (showCounter) {
+                Brief.statusCounter.value = unreadEntriesCount;
+                showCounter = unreadEntriesCount != 0;
+            }
+            if (monochrome == 1)
+                useMonochrome = unreadEntriesCount == 0;
         }
+
         Brief.statusCounter.hidden = !showCounter;
+        Brief.toolbarbutton.setAttribute('monochrome', useMonochrome);
     },
 
     constructTooltip: function Brief_constructTooltip(aEvent) {
@@ -285,7 +297,7 @@ const Brief = {
             break;
 
         case 'nsPref:changed':
-            if (aData == 'showUnreadCounter')
+            if (aData == 'showUnreadCounter' || aData == 'monochromeToolbarbutton')
                 this.updateStatus();
             break;
         }

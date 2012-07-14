@@ -16,6 +16,7 @@ pref("extensions.brief.assumeStandardKeys", true);
 pref("extensions.brief.showFavicons", true);
 pref("extensions.brief.hideChrome", false);
 pref("extensions.brief.firefox4ToolbarbuttonMigrated", false);
+pref("extensions.brief.monochromeToolbarbutton", 0);
 
 pref("extensions.brief.feedview.showHeadlinesOnly", false);
 pref("extensions.brief.feedview.filterUnread", false);
