@@ -859,29 +859,34 @@ var ViewListContextMenu = {
     emptyTrash: function gCurrentViewContextMenu_emptyTrash() {
         var query = new Query({
             deleted: Storage.ENTRY_STATE_TRASHED
-        })
+        });
         query.deleteEntries(Storage.ENTRY_STATE_DELETED);
 
-        var shouldCompact;
-        if (PrefCache.autoCompactAfterEmptyTrash)
-            shouldCompact = 0;
-        else {
+        var showPrompt = !PrefCache.autoCompactAfterEmptyTrash;
+        if (showPrompt) {
             var dialogTitle = gStringBundle.getString('compactPromptTitle');
             var dialogText = gStringBundle.getString('compactPromptText');
             var dialogConfirmLabel = gStringBundle.getString('compactPromptConfirmButton');
 
+            var quitBundle = Services.strings.createBundle('chrome://browser/locale/quitDialog.properties');
+            var neverAskText = quitBundle.GetStringFromName('neverAsk');
+
             var buttonFlags = Services.prompt.BUTTON_POS_0 * Services.prompt.BUTTON_TITLE_IS_STRING +
                               Services.prompt.BUTTON_POS_1 * Services.prompt.BUTTON_TITLE_NO +
                               Services.prompt.BUTTON_POS_0_DEFAULT;
+            var neverAsk = { value: false };
 
-            shouldCompact = Services.prompt.confirmEx(window, dialogTitle, dialogText,
-                                                          buttonFlags, dialogConfirmLabel,
-                                                          null, null, null, {value:0});
+            var shouldCompact = Services.prompt.confirmEx(window, dialogTitle, dialogText,
+                                                          buttonFlags, dialogConfirmLabel, null, null,
+                                                          neverAskText, neverAsk);
+            if (shouldCompact !== 0)
+                return;
+
+            if (neverAsk.value)
+                Prefs.setBoolPref('feedview.autoCompactAfterEmptyTrash', true);
         }
-        if (shouldCompact === 0) {
-            window.openDialog('chrome://brief/content/compacting-progress.xul', 'Brief',
-                              'chrome,titlebar,centerscreen');
-        }
+        window.openDialog('chrome://brief/content/compacting-progress.xul', 'Brief',
+                          'chrome,titlebar,centerscreen');
     }
 
 }
