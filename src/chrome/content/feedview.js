@@ -1158,6 +1158,7 @@ FeedView.prototype = {
 
         // Reset the header.
         feedTitle.removeAttribute('href');
+        feedTitle.removeAttribute('tooltiptext');
         feedTitle.className = '';
 
         feedTitle.textContent = this.titleOverride || this.title;
@@ -1165,21 +1166,19 @@ FeedView.prototype = {
         if (aFeed) {
             let url = aFeed.websiteURL || aFeed.feedURL;
             let flags = Ci.nsIScriptSecurityManager.DISALLOW_INHERIT_PRINCIPAL;
-            let securityCheckOK = true;
             try {
                 gSecurityManager.checkLoadURIStrWithPrincipal(gBriefPrincipal, url, flags);
             }
             catch (ex) {
                 log('Brief: security error.' + ex);
-                securityCheckOK = false;
+                return;
             }
 
-            if (securityCheckOK && !this.query.searchString) {
+            if (!this.query.searchString) {
                 feedTitle.setAttribute('href', url);
+                feedTitle.setAttribute('tooltiptext', aFeed.subtitle);
                 feedTitle.className = 'feed-link';
             }
-
-            feedTitle.setAttribute('tooltiptext', aFeed.subtitle);
         }
     },
 
