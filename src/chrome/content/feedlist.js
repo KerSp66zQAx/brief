@@ -356,6 +356,9 @@ var FeedList = {
 
 
     onKeyUp: function FeedList_onKeyUp(aEvent) {
+        if (!this.selectedItem)
+            return;
+
         var isContainer = this.selectedItem.hasAttribute('container');
         if (isContainer && aEvent.keyCode == aEvent.DOM_VK_RETURN) {
             if (this.selectedItem.id != 'starred-folder')
