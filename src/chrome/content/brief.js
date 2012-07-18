@@ -386,10 +386,10 @@ function onKeyPress(aEvent) {
 }
 
 function onMarkViewReadClick(aEvent) {
-    if (aEvent.ctrlKey)
+    if (aEvent.ctrlKey && aEvent.button == 0) {
         Commands.markVisibleEntriesRead();
-    else
-        Commands.markViewRead();
+        aEvent.preventDefault();
+    }
 }
 
 function getTopWindow() {
