@@ -18,7 +18,7 @@
     <name>Brief</name>
     <description>A feed reading extension.</description>
     <creator>Adam Kowalczyk</creator>
-    <homepageURL>http://brief.mozdev.org/</homepageURL>
+    <homepageURL>https://github.com/KerSp66zQAx/brief</homepageURL>
     <optionsURL>chrome://brief/content/options/options.xul</optionsURL>
     <iconURL>chrome://brief/skin/icon.png</iconURL>
     <icon64URL>chrome://brief/skin/icon64.png</icon64URL>
