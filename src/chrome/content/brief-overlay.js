@@ -18,6 +18,8 @@ const Brief = {
 
     get statusCounter() document.getElementById('brief-status-counter'),
 
+    get statusCounterMenuitem() document.getElementById('brief-show-unread-counter'),
+
     get toolbarbutton() document.getElementById('brief-button'),
 
     get prefs() {
@@ -88,9 +90,8 @@ const Brief = {
     },
 
     toggleUnreadCounter: function Brief_toggleUnreadCounter() {
-        var menuitem = document.getElementById('brief-show-unread-counter');
-        var checked = menuitem.getAttribute('checked') == 'true';
-        Brief.prefs.setBoolPref('showUnreadCounter', !checked);
+        var checked = this.statusCounterMenuitem.getAttribute('checked') == 'true';
+        this.prefs.setBoolPref('showUnreadCounter', !checked);
     },
 
     showOptions: function cmd_showOptions() {
@@ -102,21 +103,37 @@ const Brief = {
                           features);
     },
 
-
     updateStatus: function Brief_updateStatus() {
-        if (!Brief.toolbarbutton || !Brief.prefs.getBoolPref('showUnreadCounter'))
+        if (!Brief.toolbarbutton)
             return;
 
-        var query = new Brief.query({
-            deleted: Brief.storage.ENTRY_STATE_NORMAL,
-            read: false
-        });
-        var unreadEntriesCount = query.getEntryCount();
+        var showCounter = Brief.prefs.getBoolPref('showUnreadCounter');
+        Brief.statusCounterMenuitem.setAttribute('checked', showCounter);
 
-        Brief.statusCounter.value = unreadEntriesCount;
-        Brief.statusCounter.hidden = unreadEntriesCount == 0;
+        // Accepted values for monochromeToolbarbutton:
+        //   2         = Always use the monochrome icon
+        //   1         = Use only while there aren't unread items
+        //   0, other  = Never use
+        var monochrome = Brief.prefs.getIntPref('monochromeToolbarbutton');
+        var useMonochrome = monochrome == 2;
+
+        if (showCounter || monochrome == 1) {
+            var query = new Brief.query({
+                deleted: Brief.storage.ENTRY_STATE_NORMAL,
+                read: false
+            });
+            var unreadEntriesCount = query.getEntryCount();
+            if (showCounter) {
+                Brief.statusCounter.value = unreadEntriesCount;
+                showCounter = unreadEntriesCount != 0;
+            }
+            if (monochrome == 1)
+                useMonochrome = unreadEntriesCount == 0;
+        }
+
+        Brief.statusCounter.hidden = !showCounter;
+        Brief.toolbarbutton.setAttribute('monochrome', useMonochrome);
     },
-
 
     constructTooltip: function Brief_constructTooltip(aEvent) {
         var bundle = document.getElementById('brief-bundle');
@@ -193,6 +210,15 @@ const Brief = {
             gBrowser.setIcon(Brief.getBriefTab(), Brief.BRIEF_FAVICON_URL);
     },
 
+    onButtonDropped: function Brief_onButtonDropped(aEvent) {
+        if (aEvent.dataTransfer.mozSourceNode.id == 'wrapper-brief-button') {
+            let label = Brief.toolbarbutton.getElementsByClassName('toolbarbutton-text')[0];
+            label.value = Brief.toolbarbutton.label;
+
+            Brief.updateStatus();
+        }
+    },
+
     handleEvent: function Brief_handleEvent(aEvent) {
         switch (aEvent.type) {
         case 'load':
@@ -227,11 +253,7 @@ const Brief = {
             this.prefs.setBoolPref('firefox4ToolbarbuttonMigrated', true);
 
             if (this.toolbarbutton) {
-                let showCounter = this.prefs.getBoolPref('showUnreadCounter');
-                this.statusCounter.hidden = !showCounter;
-
-                let menuitem = document.getElementById('brief-show-unread-counter');
-                menuitem.setAttribute('checked', showCounter);
+                this.updateStatus();
 
                 // Because Brief's toolbarbutton doesn't use toolbarbutton's binding content,
                 // we must manually set the label in "icons and text" toolbar mode.
@@ -239,12 +261,12 @@ const Brief = {
                 label.value = this.toolbarbutton.label;
             }
 
-            this.updateStatus();
-
             if (this.prefs.getBoolPref('hideChrome'))
                 XULBrowserWindow.inContentWhitelist.push(this.BRIEF_URL);
 
             gBrowser.addEventListener('pageshow', this.onTabLoad, false);
+            document.getElementById('navigator-toolbox').addEventListener('drop', this.onButtonDropped, false);
+            document.getElementById('addon-bar').addEventListener('drop', this.onButtonDropped, false);
 
             this.prefs.addObserver('', this, false);
             this.storage.addObserver(this);
@@ -254,6 +276,12 @@ const Brief = {
             break;
 
         case 'unload':
+            window.removeEventListener('unload', this, false);
+
+            gBrowser.removeEventListener('pageshow', this.onTabLoad, false);
+            document.getElementById('navigator-toolbox').removeEventListener('drop', this.onButtonDropped, false);
+            document.getElementById('addon-bar').removeEventListener('drop', this.onButtonDropped, false);
+
             this.prefs.removeObserver('', this);
             this.storage.removeObserver(this);
             Services.obs.removeObserver(this, 'brief:invalidate-feedlist');
@@ -269,16 +297,8 @@ const Brief = {
             break;
 
         case 'nsPref:changed':
-            if (aData == 'showUnreadCounter') {
-                let newValue = this.prefs.getBoolPref('showUnreadCounter');
-                this.statusCounter.hidden = !newValue;
-
-                let menuitem = document.getElementById('brief-show-unread-counter');
-                menuitem.setAttribute('checked', newValue);
-
-                if (newValue)
-                    this.updateStatus();
-            }
+            if (aData == 'showUnreadCounter' || aData == 'monochromeToolbarbutton')
+                this.updateStatus();
             break;
         }
     },

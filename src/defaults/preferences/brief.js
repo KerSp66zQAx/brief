@@ -16,6 +16,7 @@ pref("extensions.brief.assumeStandardKeys", true);
 pref("extensions.brief.showFavicons", true);
 pref("extensions.brief.hideChrome", false);
 pref("extensions.brief.firefox4ToolbarbuttonMigrated", false);
+pref("extensions.brief.monochromeToolbarbutton", 0);
 
 pref("extensions.brief.feedview.showHeadlinesOnly", false);
 pref("extensions.brief.feedview.filterUnread", false);
@@ -26,6 +27,7 @@ pref("extensions.brief.feedview.autoMarkRead", false);
 pref("extensions.brief.feedview.entrySelectionEnabled", true);
 pref("extensions.brief.feedview.sortUnreadViewOldestFirst", false);
 pref("extensions.brief.feedview.preferUnreadViewOnLoad", false);
+pref("extensions.brief.feedview.autoCompactAfterEmptyTrash", false);
 
 pref("extensions.brief.update.interval", 3600);
 pref("extensions.brief.update.lastUpdateTime", 0);

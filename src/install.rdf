@@ -13,12 +13,12 @@
 
   <rdf:Description about="urn:mozilla:install-manifest">
     <id>brief@mozdev.org</id>
-    <version>1.5.4.10.8</version>
+    <version>1.5.4.10.9</version>
     <type>2</type>
     <name>Brief</name>
     <description>A feed reading extension.</description>
     <creator>Adam Kowalczyk</creator>
-    <homepageURL>http://brief.mozdev.org/</homepageURL>
+    <homepageURL>https://github.com/KerSp66zQAx/brief</homepageURL>
     <optionsURL>chrome://brief/content/options/options.xul</optionsURL>
     <iconURL>chrome://brief/skin/icon.png</iconURL>
     <icon64URL>chrome://brief/skin/icon64.png</icon64URL>

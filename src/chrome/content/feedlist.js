@@ -356,6 +356,9 @@ var FeedList = {
 
 
     onKeyUp: function FeedList_onKeyUp(aEvent) {
+        if (!this.selectedItem)
+            return;
+
         var isContainer = this.selectedItem.hasAttribute('container');
         if (isContainer && aEvent.keyCode == aEvent.DOM_VK_RETURN) {
             if (this.selectedItem.id != 'starred-folder')
@@ -859,25 +862,34 @@ var ViewListContextMenu = {
     emptyTrash: function gCurrentViewContextMenu_emptyTrash() {
         var query = new Query({
             deleted: Storage.ENTRY_STATE_TRASHED
-        })
+        });
         query.deleteEntries(Storage.ENTRY_STATE_DELETED);
 
-        var dialogTitle = gStringBundle.getString('compactPromptTitle');
-        var dialogText = gStringBundle.getString('compactPromptText');
-        var dialogConfirmLabel = gStringBundle.getString('compactPromptConfirmButton');
+        var showPrompt = !PrefCache.autoCompactAfterEmptyTrash;
+        if (showPrompt) {
+            var dialogTitle = gStringBundle.getString('compactPromptTitle');
+            var dialogText = gStringBundle.getString('compactPromptText');
+            var dialogConfirmLabel = gStringBundle.getString('compactPromptConfirmButton');
 
-        var buttonFlags = Services.prompt.BUTTON_POS_0 * Services.prompt.BUTTON_TITLE_IS_STRING +
-                          Services.prompt.BUTTON_POS_1 * Services.prompt.BUTTON_TITLE_NO +
-                          Services.prompt.BUTTON_POS_0_DEFAULT;
+            var quitBundle = Services.strings.createBundle('chrome://browser/locale/quitDialog.properties');
+            var neverAskText = quitBundle.GetStringFromName('neverAsk');
 
-        var shouldCompact = Services.prompt.confirmEx(window, dialogTitle, dialogText,
-                                                      buttonFlags, dialogConfirmLabel,
-                                                      null, null, null, {value:0});
+            var buttonFlags = Services.prompt.BUTTON_POS_0 * Services.prompt.BUTTON_TITLE_IS_STRING +
+                              Services.prompt.BUTTON_POS_1 * Services.prompt.BUTTON_TITLE_NO +
+                              Services.prompt.BUTTON_POS_0_DEFAULT;
+            var neverAsk = { value: false };
 
-        if (shouldCompact === 0) {
-            window.openDialog('chrome://brief/content/compacting-progress.xul', 'Brief',
-                              'chrome,titlebar,centerscreen');
+            var shouldCompact = Services.prompt.confirmEx(window, dialogTitle, dialogText,
+                                                          buttonFlags, dialogConfirmLabel, null, null,
+                                                          neverAskText, neverAsk);
+            if (shouldCompact !== 0)
+                return;
+
+            if (neverAsk.value)
+                Prefs.setBoolPref('feedview.autoCompactAfterEmptyTrash', true);
         }
+        window.openDialog('chrome://brief/content/compacting-progress.xul', 'Brief',
+                          'chrome,titlebar,centerscreen');
     }
 
 }
