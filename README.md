@@ -14,6 +14,12 @@ To keep Brief 1.5 compatible with the latest Firefox releases. Some minor enhanc
 It's all shared under the [MPL 2.0].
 
 
+Get
+---
+
+Visit the [wiki's Downloads] [6] page.
+
+
 Repository
 ----------
 
@@ -26,6 +32,7 @@ The latest work is in the branch "dev-1.5". While branches with the source code 
 [3]: http://brief.mozdev.org/drupal/node/912
 [4]: http://brief.mozdev.org/drupal/node/3852
 [5]: http://brief.mozdev.org/drupal/node/1775
+[6]: https://github.com/KerSp66zQAx/brief/wiki/Downloads
 
 [MPL 1.1]: http://www.mozilla.org/MPL/1.1/      "Mozilla Public License, version 1.1"
 [MPL 2.0]: http://www.mozilla.org/MPL/2.0/      "Mozilla Public License, version 2.0"
