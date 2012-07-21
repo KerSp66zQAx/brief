@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/.
+   -
+   - This Source Code Form is "Incompatible With Secondary Licenses", as
+   - defined by the Mozilla Public License, v. 2.0.
+   -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US">
+    <body>
+        <p>What's new in this release:</p>
+        <ul>
+            <li>Added the possibility of to use a monochrome style for the toolbar button indicating no unread items.</li>
+            <li>Added to the dialog for to compact the feeds database after emptying the Trash the option of to be always skipped.</li>
+            <li>Fixed some initialization's issues with the toolbar button after adding it to a toolbar.</li>
+            <li>Updated the extension's homepage.</li>
+            <li>Other minor changes.</li>
+        </ul>
+
+        <p>A summary of the changes in older releases can be found in the project's wiki:<br />
+            https://github.com/KerSp66zQAx/brief/wiki/Changelog
+        </p>
+
+        <p>Information of some preferences that aren't accesible through the Brief Options window is available too:<br />
+            https://github.com/KerSp66zQAx/brief/wiki/Hidden-Preferences
+        </p>
+    </body>
+</html>
