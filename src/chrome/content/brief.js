@@ -411,7 +411,7 @@ var PrefCache = {};
 var PrefObserver = {
 
     register: function PrefObserver_register() {
-        for (key in this._cachedPrefs)
+        for (var key in this._cachedPrefs)
             this._updateCachedPref(key);
 
         Prefs.addObserver('', this, false);
