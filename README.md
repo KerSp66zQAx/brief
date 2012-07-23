@@ -22,7 +22,11 @@ Visit the [wiki's Downloads] [6] page.
 
 Contribute
 ----------
-Report, suggest or thank in the project's [tracker] [7], [fork it] [8] and [propose code] [9], or simply spread the word.
+
+ * Report issues or suggest changes in the [tracker] [7].
+ * [Fork] [8] the repository and [propose patches] [9].
+
+Or simply spread the word.
 
 
 Repository
