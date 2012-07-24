@@ -81,9 +81,8 @@ function unload() {
 
     var preferUnreadView = PrefCache.preferUnreadViewOnLoad;
     var preferredView = (preferUnreadView) ? 'unread-folder' : 'all-items-folder';
-    var startView = (id == 'unread-folder' || id == 'all-items-folder') ? id : preferredView;
 
-    viewList.setAttribute('startview', startView);
+    viewList.setAttribute('startview', preferredView);
 
     Services.obs.removeObserver(FeedList, 'brief:feed-updated');
     Services.obs.removeObserver(FeedList, 'brief:feed-loading');
