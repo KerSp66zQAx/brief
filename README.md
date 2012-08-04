@@ -1,9 +1,9 @@
 Brief
 =====
 
-[Brief] [1] is a feed reading extension for Mozilla Firefox, released under the [MPL 1.1].
+[Brief] [1] is a feed reading extension for Mozilla Firefox, developed by Adam Kowalczyk, and released under the [MPL 1.1].
 
-With its (until then) last stable version (1.5.4) [not being compatible] [2] anymore with the latest Firefox releases, and the version 1.6 [] [3] not being the cup of tea for everyone, some guys began [] [4] to do something about it [] [5].
+With its (until recently) last stable version (1.5.4) [not being compatible] [2] anymore with the latest Firefox releases, and the version 1.6 [] [3] not being the cup of tea for everyone, some guys began [] [4] then to do something about it [] [5].
 
 
 About
@@ -27,12 +27,6 @@ Contribute
  * [Fork] [8] the repository and [propose patches] [9].
 
 Or simply spread the word.
-
-
-Repository
-----------
-
-The latest work is in the branch "dev-1.5". While branches with the source code of the version 1.6 of Brief are available too, they are currently half-broken and barely developed.
 
 
 
