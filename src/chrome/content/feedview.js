@@ -1287,7 +1287,13 @@ __defineGetter__('gBriefPrincipal', function() {
     var resolvedURI = Cc['@mozilla.org/chrome/chrome-registry;1']
                       .getService(Ci.nsIChromeRegistry)
                       .convertChromeURL(uri);
+    try {
+        var gBriefPrincipal = gSecurityManager.getSimpleCodebasePrincipal(resolvedURI);
+    } catch (e) {
+        // Firefox 16 and before
+        var gBriefPrincipal = gSecurityManager.getCodebasePrincipal(resolvedURI);
+    }
 
     delete this.gBriefPrincipal;
-    return this.gBriefPrincipal = gSecurityManager.getCodebasePrincipal(resolvedURI);
+    return this.gBriefPrincipal = gBriefPrincipal;
 });
