@@ -18,10 +18,6 @@ Components.utils.import('resource://gre/modules/NetUtil.jsm');
 var gTemplateURI = NetUtil.newURI('resource://brief-content/feedview-template.html');
 var gStringBundle;
 
-// We save a reference to the sub-windows for reusing it
-var optionsWindow = null;
-var shortcutsWindow = null;
-
 
 function init() {
     PrefObserver.register();
@@ -134,16 +130,23 @@ var Commands = {
     },
 
     openOptions: function cmd_openOptions(aPaneID) {
-        if (optionsWindow && !optionsWindow.closed)
-            optionsWindow.focus();
-        else {
-            var instantApply = Services.prefs.getBoolPref('browser.preferences.instantApply');
-            var features = 'chrome,titlebar,toolbar,centerscreen,resizable,';
-            features += instantApply ? 'modal=no,dialog=no' : 'modal';
+        var url = 'chrome://brief/content/options/options.xul';
 
-            optionsWindow = window.openDialog('chrome://brief/content/options/options.xul',
-                                              'Brief options', features, aPaneID);
+        // Try to focus a previously open instance
+        let windows = Services.wm.getEnumerator(null);
+        while (windows.hasMoreElements()) {
+            let window = windows.getNext();
+            if (window.document.documentURI == url) {
+                window.focus();
+                return;
+            }
         }
+
+        var instantApply = Services.prefs.getBoolPref('browser.preferences.instantApply');
+        var features = 'chrome,titlebar,toolbar,centerscreen,resizable,';
+        features += instantApply ? 'modal=no,dialog=no' : 'modal';
+
+        window.openDialog(url, 'Brief options', features, aPaneID);
     },
 
     markViewRead: function cmd_markViewRead() {
@@ -295,15 +298,22 @@ var Commands = {
     },
 
     displayShortcuts: function cmd_displayShortcuts() {
-        if (shortcutsWindow && !shortcutsWindow.closed)
-            shortcutsWindow.focus();
-        else {
-            var height = Math.min(window.screen.availHeight, 630);
-            var features = 'chrome,centerscreen,titlebar,resizable,width=500,height=' + height;
-            var url = 'chrome://brief/content/keyboard-shortcuts.xhtml';
+        var url = 'chrome://brief/content/keyboard-shortcuts.xhtml';
 
-            shortcutsWindow = window.openDialog(url, 'Brief shortcuts', features);
+        // Try to focus a previously open instance
+        let windows = Services.wm.getEnumerator(null);
+        while (windows.hasMoreElements()) {
+            let window = windows.getNext();
+            if (window.document.documentURI == url) {
+                window.focus();
+                return;
+            }
         }
+
+        var height = Math.min(window.screen.availHeight, 630);
+        var features = 'chrome,centerscreen,titlebar,resizable,width=500,height=' + height;
+
+        window.openDialog(url, 'Brief shortcuts', features);
     }
 }
 

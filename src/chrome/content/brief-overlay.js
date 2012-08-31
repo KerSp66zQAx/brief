@@ -95,12 +95,23 @@ const Brief = {
     },
 
     showOptions: function cmd_showOptions() {
+        var url = 'chrome://brief/content/options/options.xul';
+
+        // Try to focus a previously open instance
+        let windows = Services.wm.getEnumerator(null);
+        while (windows.hasMoreElements()) {
+            let window = windows.getNext();
+            if (window.document.documentURI == url) {
+                window.focus();
+                return;
+            }
+        }
+
         var instantApply = Services.prefs.getBoolPref('browser.preferences.instantApply');
         var features = 'chrome,titlebar,toolbar,centerscreen,resizable,';
         features += instantApply ? 'modal=no,dialog=no' : 'modal';
 
-        window.openDialog('chrome://brief/content/options/options.xul', 'Brief options',
-                          features);
+        window.openDialog(url, 'Brief options', features);
     },
 
     updateStatus: function Brief_updateStatus() {
