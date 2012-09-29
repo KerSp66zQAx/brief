@@ -14,10 +14,9 @@
     <body>
         <p>What's new in this release:</p>
         <ul>
-            <li>Added the possibility of to use a monochrome style for the toolbar button indicating no unread items.</li>
-            <li>Added to the dialog for to compact the feeds database after emptying the Trash the option of to be always skipped.</li>
-            <li>Fixed some initialization's issues with the toolbar button after adding it to a toolbar.</li>
-            <li>Updated the extension's homepage.</li>
+            <li>Fixed the feeds' title not working as a link (Firefox 17).</li>
+            <li>Updated the Romanian (ro) translation. Credits to Micleusanu Nicu.</li>
+            <li>Changed how the preferUnreadViewOnLoad preference works.</li>
             <li>Other minor changes.</li>
         </ul>
 

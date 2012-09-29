@@ -2,23 +2,23 @@
 <RDF:RDF xmlns:NS1="http://www.mozilla.org/2004/em-rdf#"
          xmlns:NC="http://home.netscape.com/NC-rdf#"
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <RDF:Description RDF:about="rdf:#$Ts0yi2"
+  <RDF:Description RDF:about="rdf:#$GP1XS2"
                    NS1:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    NS1:minVersion="10.0"
-                   NS1:maxVersion="15.*"
-                   NS1:updateLink="https://github.com/downloads/KerSp66zQAx/brief/Brief-1.5.4.10.9.xpi"
-                   NS1:updateHash="sha256:81c8667297e0af98b346a881479b749b0bd5ea1de5e5ca93f1800a7b3ef8cefb"
-                   NS1:updateInfoURL="http://kersp66zqax.github.com/brief/update-1.5.4.10.9.xml" />
+                   NS1:maxVersion="17.*"
+                   NS1:updateLink="https://github.com/downloads/KerSp66zQAx/brief/Brief-1.5.4.10.10.xpi"
+                   NS1:updateHash="sha256:6d35d4cc6d50bb1ce4ab93bef2bcbdd2c5fa294f18b6370e7229468766ef0c14"
+                   NS1:updateInfoURL="http://kersp66zqax.github.com/brief/update-1.5.4.10.10.xml" />
   <RDF:Description RDF:about="urn:mozilla:extension:brief@mozdev.org"
-                   NS1:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAAAyC7oF9dMVqnQjVpfNl3Wsbq4pOVP3n0i8kiqETa7J5Sg5RQf4EsN+9uO2NJVOw5ak9V+XHgullikAXr8OKLLxBrq3KPSq1YTwN+ApIivF9I56t9GEhDCCH2rZzZEiRx/8lyGOgwDjmZJ85UiwJmpdbStx/tsV0X3a0eZKeVg3">
-    <NS1:updates RDF:resource="rdf:#$Qs0yi2"/>
+                   NS1:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAJKHCKSuU0PI/cTwgzqbNDh7TuqVt3WM/iKyzX2jdreYo7Ltv8Spjv+UQsdtAzHmEGUvhoUsD2/EEO1j/Y77MO3xX/z0M9E+npbOG5Lej/kFPFWLeEVi5zBkJvm4MupkYSWniOxLYT/yXrNJk+yIThnVbocPsdIjJfVS7W1ZF4h3">
+    <NS1:updates RDF:resource="rdf:#$DP1XS2"/>
   </RDF:Description>
-  <RDF:Seq RDF:about="rdf:#$Qs0yi2">
-    <RDF:li RDF:resource="urn:mozilla:extension:brief@mozdev.org:1.5.4.10.9"/>
+  <RDF:Description RDF:about="urn:mozilla:extension:brief@mozdev.org:1.5.4.10.10"
+                   NS1:version="1.5.4.10.10"
+                   NS1:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAGVvCDmdC2S+jXReDBii4jhFJOn49IiT4aul3Pxbihg9aydOBgZsrpYi9OY9w1ZDle3QGw+uyBOEn3qI/BjePu6qC57UswY/D5CxsYETiKC2nOL64CBlVUqG7wOjxzKrwPeKB98g8DQYy5POaKhU1i+U/zjSK6e70juhQ+hQZh+c">
+    <NS1:targetApplication RDF:resource="rdf:#$GP1XS2"/>
+  </RDF:Description>
+  <RDF:Seq RDF:about="rdf:#$DP1XS2">
+    <RDF:li RDF:resource="urn:mozilla:extension:brief@mozdev.org:1.5.4.10.10"/>
   </RDF:Seq>
-  <RDF:Description RDF:about="urn:mozilla:extension:brief@mozdev.org:1.5.4.10.9"
-                   NS1:version="1.5.4.10.9"
-                   NS1:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAFx0D5/gzM0b7Jec9xFO/1CKiyWOojlEkStCN3J6PQu92ntOnD7tLpWeD2BCthVtqdw++VKc4Q1OTujxodouhO/jNirscYSbmvNxeK+6yrHJdRvo0+jtVyKW3g+dSdPyzRgP74uHViCC+PT75aW1scZYP4ppw5h5LJmPwTszVVEv">
-    <NS1:targetApplication RDF:resource="rdf:#$Ts0yi2"/>
-  </RDF:Description>
 </RDF:RDF>
