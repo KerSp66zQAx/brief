@@ -223,7 +223,7 @@
             <textbox id="searchbar"
                      spellcheck="false"
                      type="search"
-                     emptytext="&searchBox.label;"
+                     placeholder="&searchBox.label;"
                      oncommand="onSearchbarCommand()"
                      onblur="onSearchbarBlur()"/>
         </hbox>
