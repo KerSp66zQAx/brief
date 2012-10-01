@@ -16,7 +16,7 @@
         <ul>
             <li>Fixed the feeds' title not working as a link (Firefox 17).</li>
             <li>Updated the Romanian (ro) translation. Credits to Micleusanu Nicu.</li>
-            <li>Changed how the preferUnreadViewOnLoad preference works.</li>
+            <li>The way in which is selected the folder displayed after opening Brief was simplified. The preferUnreadViewOnLoad preference is still available.</li>
             <li>Other minor changes.</li>
         </ul>
 
