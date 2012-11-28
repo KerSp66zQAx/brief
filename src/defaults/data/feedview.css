@@ -94,8 +94,7 @@ body {
     border-width: 6px;
     border-style: solid;
     border-color: transparent;
-    -moz-border-image: url(chrome://brief/skin/selected-entry-border.png) 6 stretch;
-    border-image: url(chrome://brief/skin/selected-entry-border.png) 6 fill stretch;    /* Firefox 15 and later */
+    border-image: url(chrome://brief/skin/selected-entry-border.png) 6 fill stretch;
 }
 
 
@@ -330,8 +329,7 @@ pre, code {
     border-width: 0 7px;
     border-style: solid;
     border-color: transparent;
-    -moz-border-image: url(chrome://brief/skin/mark-read-button-normal.png) 0 6 stretch;
-    border-image: url(chrome://brief/skin/mark-read-button-normal.png) 0 6 fill stretch;    /* Firefox 15 and later */
+    border-image: url(chrome://brief/skin/mark-read-button-normal.png) 0 6 fill stretch;
     font-family: Arial, sans-serif;
     font-size: 12px;
     color: #326585;
@@ -340,13 +338,11 @@ pre, code {
 }
 
 .mark-read:hover {
-    -moz-border-image: url(chrome://brief/skin/mark-read-button-hover.png) 0 6 stretch;
-    border-image: url(chrome://brief/skin/mark-read-button-hover.png) 0 6 fill stretch;    /* Firefox 15 and later */
+    border-image: url(chrome://brief/skin/mark-read-button-hover.png) 0 6 fill stretch;
 }
 
 .mark-read:active {
-    -moz-border-image: url(chrome://brief/skin/mark-read-button-active.png) 0 6 stretch;
-    border-image: url(chrome://brief/skin/mark-read-button-active.png) 0 6 fill stretch;    /* Firefox 15 and later */
+    border-image: url(chrome://brief/skin/mark-read-button-active.png) 0 6 fill stretch;
 }
 
 

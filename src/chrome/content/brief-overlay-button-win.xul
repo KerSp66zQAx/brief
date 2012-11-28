@@ -8,7 +8,7 @@
    - defined by the Mozilla Public License, v. 2.0.
    -->
 
-<overlay id="brief-overlay-button-win-14"
+<overlay id="brief-overlay-button-win"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
     <toolbarbutton id="brief-button">

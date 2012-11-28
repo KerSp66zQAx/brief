@@ -32,8 +32,8 @@
     <targetApplication>
       <rdf:Description>
         <id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</id>
-        <minVersion>10.0</minVersion>
-        <maxVersion>17.*</maxVersion>
+        <minVersion>17.0</minVersion>
+        <maxVersion>18.*</maxVersion>
       </rdf:Description>
     </targetApplication>
 
