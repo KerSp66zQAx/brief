@@ -254,15 +254,6 @@ const Brief = {
                 }
             }
 
-            if (!this.toolbarbutton && !this.prefs.getBoolPref('firefox4ToolbarbuttonMigrated')) {
-                let navbar = document.getElementById('nav-bar');
-                navbar.insertItem('brief-button', null, null, false);
-                navbar.setAttribute('currentset', navbar.currentSet);
-                document.persist('nav-bar', 'currentset');
-            }
-
-            this.prefs.setBoolPref('firefox4ToolbarbuttonMigrated', true);
-
             if (this.toolbarbutton) {
                 this.updateStatus();
 
@@ -363,7 +354,6 @@ const Brief = {
 
         Brief.prefs.setBoolPref('firstRun', false);
         Brief.prefs.setCharPref('lastVersion', Brief.VERSION);
-        Brief.prefs.setBoolPref('firefox4ToolbarbuttonMigrated', true);
     },
 
     QueryInterface: function Brief_QueryInterface(aIID) {
