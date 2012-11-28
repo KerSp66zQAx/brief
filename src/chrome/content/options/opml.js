@@ -20,50 +20,52 @@ var opml = {
 
         var nsIFilePicker = Ci.nsIFilePicker;
         var fp = Cc['@mozilla.org/filepicker;1'].createInstance(nsIFilePicker);
+        var fpCallback = function fpCallback_done(res) {
+            if (res == nsIFilePicker.returnOK) {
+                // Read any xml file by using XMLHttpRequest.
+                // Any character code is converted to native unicode automatically.
+                var fix = Cc['@mozilla.org/docshell/urifixup;1'].getService(Ci.nsIURIFixup);
+                var url = fix.createFixupURI(fp.file.path, fix.FIXUP_FLAG_ALLOW_KEYWORD_LOOKUP);
+
+                var reader = new XMLHttpRequest();
+                reader.open('GET', url.spec, false);
+                reader.overrideMimeType('application/xml');
+                reader.send(null);
+                var opmldoc = reader.responseXML;
+
+                if (opmldoc.documentElement.localName == 'parsererror') {
+                    Services.prompt.alert(window, bundle.getString('invalidFileAlertTitle'),
+                                          bundle.getString('invalidFileAlertText'));
+                    return;
+                }
+
+                var results = [];
+
+                // At this point, we have an XML doc in opmldoc
+                var nodes = opmldoc.getElementsByTagName('body')[0].childNodes;
+
+                for (var i = 0; i < nodes.length; i++) {
+                    if (nodes[i].nodeName == 'outline')
+                        results = opml.importNode(results, nodes[i]);
+                }
+
+                // Now we have the structure of the file in an array.
+                var carr = {folders : 0, links : 0, feeds : 0};
+
+                for (var i = 0; i < results.length; i++)
+                    carr = opml.countItems(results[i], carr);
+
+                opml.importLevel(results, null);
+            }
+        };
+
+        fp.init(window, bundle.getString('selectFile'), nsIFilePicker.modeOpen);
+
         fp.appendFilter(bundle.getString('OPMLFiles'),'*.opml');
         fp.appendFilter(bundle.getString('XMLFiles'),'*.opml; *.xml; *.rdf; *.html; *.htm');
         fp.appendFilter(bundle.getString('allFiles'),'*');
 
-        fp.init(window, bundle.getString('selectFile'), nsIFilePicker.modeOpen);
-
-        var res = fp.show();
-
-        if (res == nsIFilePicker.returnOK) {
-            // Read any xml file by using XMLHttpRequest.
-            // Any character code is converted to native unicode automatically.
-            var fix = Cc['@mozilla.org/docshell/urifixup;1'].getService(Ci.nsIURIFixup);
-            var url = fix.createFixupURI(fp.file.path, fix.FIXUP_FLAG_ALLOW_KEYWORD_LOOKUP);
-
-            var reader = new XMLHttpRequest();
-            reader.open('GET', url.spec, false);
-            reader.overrideMimeType('application/xml');
-            reader.send(null);
-            var opmldoc = reader.responseXML;
-
-            if (opmldoc.documentElement.localName == 'parsererror') {
-                Services.prompt.alert(window, bundle.getString('invalidFileAlertTitle'),
-                                      bundle.getString('invalidFileAlertText'));
-                return;
-            }
-
-            var results = [];
-
-            // At this point, we have an XML doc in opmldoc
-            var nodes = opmldoc.getElementsByTagName('body')[0].childNodes;
-
-            for (var i = 0; i < nodes.length; i++) {
-                if (nodes[i].nodeName == 'outline')
-                    results = this.importNode(results, nodes[i]);
-            }
-
-            // Now we have the structure of the file in an array.
-            var carr = {folders : 0, links : 0, feeds : 0};
-
-            for (var i = 0; i < results.length; i++)
-                carr = this.countItems(results[i], carr);
-
-            this.importLevel(results, null);
-        }
+        fp.open(fpCallback);
     },
 
     importLevel: function(aNodes, aCreateIn) {
@@ -184,51 +186,63 @@ var opml = {
     exportOPML: function() {
         var filePrefix = 'feeds';
         var title = 'Feeds';
+        var bundle = document.getElementById('options-bundle');
 
-        var file = this.promptForFile(filePrefix);
+        var nsIFilePicker = Ci.nsIFilePicker;
+        var fp = Cc['@mozilla.org/filepicker;1'].createInstance(nsIFilePicker);
+        var fpCallback = function fpCallback_done(res) {
+            if (res == nsIFilePicker.returnOK || res == nsIFilePicker.returnReplace) {
+                var home = document.getElementById('extensions.brief.homeFolder').value;
+                var folder = (home != -1) ? home
+                                          : opml.bookmarksService.bookmarksMenuFolder;
 
-        if (file) {
-            var home = document.getElementById('extensions.brief.homeFolder').value;
-            var folder = (home != -1) ? home
-                                      : this.bookmarksService.bookmarksMenuFolder;
+                var options = opml.historyService.getNewQueryOptions();
+                var query = opml.historyService.getNewQuery();
 
-            var options = this.historyService.getNewQueryOptions();
-            var query = this.historyService.getNewQuery();
+                query.setFolders([folder], 1);
+                options.excludeItems = true;
+                var result = opml.historyService.executeQuery(query, options);
+                var root = result.root;
 
-            query.setFolders([folder], 1);
-            options.excludeItems = true;
-            var result = this.historyService.executeQuery(query, options);
-            var root = result.root;
+                var data = '';
+                data += '<?xml version="1.0" encoding="UTF-8"?>' + '\n';
+                data += '<opml version="1.0">' + '\n';
+                data += '\t' + '<head>' + '\n';
+                data += '\t\t' + '<title>' + title + ' OPML Export</title>' + '\n';
+                data += '\t\t' + '<dateCreated>' + new Date().toString() + '</dateCreated>' + '\n';
+                data += '\t' + '</head>' + '\n';
+                data += '\t' + '<body>' + '\n';
 
-            var data = '';
-            data += '<?xml version="1.0" encoding="UTF-8"?>' + '\n';
-            data += '<opml version="1.0">' + '\n';
-            data += '\t' + '<head>' + '\n';
-            data += '\t\t' + '<title>' + title + ' OPML Export</title>' + '\n';
-            data += '\t\t' + '<dateCreated>' + new Date().toString() + '</dateCreated>' + '\n';
-            data += '\t' + '</head>' + '\n';
-            data += '\t' + '<body>' + '\n';
+                data = opml.addFolderToOPML(data, root, 0, true);
 
-            data = this.addFolderToOPML(data, root, 0, true);
+                data += '\t' + '</body>' + '\n';
+                data += '</opml>';
 
-            data += '\t' + '</body>' + '\n';
-            data += '</opml>';
+                // convert to utf-8 from native unicode
+                var converter = Cc['@mozilla.org/intl/scriptableunicodeconverter'].
+                                getService(Ci.nsIScriptableUnicodeConverter);
+                converter.charset = 'UTF-8';
+                data = converter.ConvertFromUnicode(data);
 
-            // convert to utf-8 from native unicode
-            var converter = Cc['@mozilla.org/intl/scriptableunicodeconverter'].
-                            getService(Ci.nsIScriptableUnicodeConverter);
-            converter.charset = 'UTF-8';
-            data = converter.ConvertFromUnicode(data);
+                var outputStream = Cc['@mozilla.org/network/file-output-stream;1'].
+                                   createInstance(Ci.nsIFileOutputStream);
 
-            var outputStream = Cc['@mozilla.org/network/file-output-stream;1'].
-                               createInstance(Ci.nsIFileOutputStream);
+                outputStream.init(fp.file, 0x04 | 0x08 | 0x20, 420, 0 );
+                outputStream.write(data, data.length);
+                outputStream.close();
+            }
+        };
 
-            outputStream.init(file, 0x04 | 0x08 | 0x20, 420, 0 );
-            outputStream.write(data, data.length);
-            outputStream.close();
-        }
+        fp.init(window, bundle.getString('saveAs'), nsIFilePicker.modeSave);
+
+        fp.appendFilter(bundle.getString('OPMLFiles'),'*.opml');
+        fp.appendFilter(bundle.getString('XMLFiles'),'*.opml; *.xml; *.rdf; *.html; *.htm');
+        fp.appendFilter(bundle.getString('allFiles'),'*');
+
+        fp.defaultString = filePrefix + '.opml';
+
+        fp.open(fpCallback);
     },
-
 
     addFolderToOPML: function(dataString, folder, level, isBase) {
         level++;
@@ -286,27 +300,6 @@ var opml = {
         return dataString;
     },
 
-    promptForFile: function (filePrefix) {
-        var bundle = document.getElementById('options-bundle');
-
-        var nsIFilePicker = Ci.nsIFilePicker;
-        var fp = Cc['@mozilla.org/filepicker;1'].createInstance(nsIFilePicker);
-        fp.init(window, bundle.getString('saveAs'), nsIFilePicker.modeSave);
-
-        fp.appendFilter(bundle.getString('OPMLFiles'),'*.opml');
-        fp.appendFilter(bundle.getString('XMLFiles'),'*.opml; *.xml; *.rdf; *.html; *.htm');
-        fp.appendFilter(bundle.getString('allFiles'),'*');
-
-        fp.defaultString = filePrefix + '.opml';
-
-        var result = fp.show();
-
-        if (result == nsIFilePicker.returnCancel)
-            return false;
-        else
-            return fp.file;
-    },
-
     cleanXMLText: function(str) {
         var res = [
             {find : '&', replace : '&amp;'},
@@ -323,7 +316,6 @@ var opml = {
 
         return str;
     }
-
 }
 
 function log(aMessage) {
