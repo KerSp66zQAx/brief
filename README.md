@@ -7,9 +7,9 @@ Brief ![] (src/chrome/skin/toolbarbutton.png)
 About
 -----
 
-Because of the cosmetic changes brought by its major release 1.6, this fork tries to keep Brief 1.5 compatible with the current Firefox releases. Some minor enhancements can to land too.
+Because of the UI changes brought by its major release 1.6 (a regression in usability, for some people), this independent fork tries to keep Brief 1.5 compatible with the current Firefox releases. Some minor enhancements can to land too.
 
-It's all shared under the [MPL 2.0] (http://www.mozilla.org/MPL/2.0/ "Mozilla Public License, version 2.0"). More info in the [wiki's General FAQ] (https://github.com/KerSp66zQAx/brief/wiki/General-FAQ) page.
+It's all shared under the [MPL 2.0] (http://www.mozilla.org/MPL/2.0/ "Mozilla Public License, version 2.0"). More info in the [wiki's FAQ] (https://github.com/KerSp66zQAx/brief/wiki/FAQ) page.
 
 
 Install
