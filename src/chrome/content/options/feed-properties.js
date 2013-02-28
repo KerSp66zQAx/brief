@@ -39,9 +39,7 @@ function setupWindow() {
 
     getElement('updated-entries-checkbox').checked = !gFeed.markModifiedEntriesUnread;
 
-    var index = getFeedIndex(gFeed);
-    getElement('next-feed').disabled = (index == Storage.getAllFeeds().length - 1);
-    getElement('previous-feed').disabled = (index == 0);
+    updateNavigationControls();
 }
 
 function showFeed(aDeltaIndex) {
@@ -93,6 +91,20 @@ function initUpdateIntervalControls() {
     }
 }
 
+function updateNavigationControls() {
+    var urlTextbox = getElement('feed-url-textbox');
+    var urlIsValid = false;
+    try {
+        Services.io.newURI(urlTextbox.value, null, null);
+        urlIsValid = true;
+    } catch (ex) { }
+    var feedIndex = getFeedIndex(gFeed);
+
+    getElement('next-feed').disabled = !urlIsValid || (feedIndex == Storage.getAllFeeds().length - 1);
+    getElement('previous-feed').disabled = !urlIsValid || (feedIndex == 0);
+    document.documentElement.getButton('accept').disabled = !urlIsValid;
+}
+
 function onExpirationCheckboxCmd(aEvent) {
     getElement('expiration-textbox').disabled = !aEvent.target.checked;
 }
@@ -101,11 +113,6 @@ function onCheckUpdatesCheckboxCmd(aEvent) {
     var textbox = getElement('check-updates-textbox');
     var menulist = getElement('update-time-menulist');
     textbox.disabled = menulist.disabled = !aEvent.target.checked;
-}
-
-function onFeedUrlTextboxChange(aEvent) {
-    var acceptButton = document.documentElement.getButton('accept');
-    acceptButton.disabled = !aEvent.target.value;
 }
 
 function saveChanges() {
