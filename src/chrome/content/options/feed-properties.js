@@ -103,6 +103,10 @@ function onCheckUpdatesCheckboxCmd(aEvent) {
     textbox.disabled = menulist.disabled = !aEvent.target.checked;
 }
 
+function onFeedUrlTextboxChange(aEvent) {
+    var acceptButton = document.documentElement.getButton('accept');
+    acceptButton.disabled = !aEvent.target.value;
+}
 
 function saveChanges() {
     var expirationCheckbox = getElement('expiration-checkbox');
