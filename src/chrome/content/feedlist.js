@@ -872,7 +872,14 @@ var ViewListContextMenu = {
             var dialogConfirmLabel = gStringBundle.getString('compactPromptConfirmButton');
 
             var quitBundle = Services.strings.createBundle('chrome://browser/locale/quitDialog.properties');
-            var neverAskText = quitBundle.GetStringFromName('neverAsk');
+            try {
+                var neverAskText = quitBundle.GetStringFromName('neverAsk');
+            }
+            catch (ex) {
+                // Firefox 23 and later
+                var neverAskText = quitBundle.GetStringFromName('neverAsk2');
+            }
+
 
             var buttonFlags = Services.prompt.BUTTON_POS_0 * Services.prompt.BUTTON_TITLE_IS_STRING +
                               Services.prompt.BUTTON_POS_1 * Services.prompt.BUTTON_TITLE_NO +
