@@ -9,7 +9,7 @@ About
 
 Because of the UI changes brought by its major release 1.6 (a regression in usability, for some people), this **independent fork** tries to keep Brief 1.5.4 compatible with the current Firefox releases. Some minor enhancements can to land too.
 
-It's all shared under the [MPL 2.0] (http://www.mozilla.org/MPL/2.0/ "Mozilla Public License, version 2.0"). More info in the [wiki's FAQ] (https://github.com/KerSp66zQAx/brief/wiki/FAQ) page.
+It's all shared under the [MPL 2.0] (http://www.mozilla.org/MPL/2.0/ "Mozilla Public License, version 2.0").
 
 
 Install
@@ -30,4 +30,4 @@ Or simply spread the word.
 See Also
 --------
 
-[**Digest**] (https://addons.mozilla.org/firefox/addon/digest/), a fork of Brief 1.7a1 _"aiming to update it for the modern Firefox versions, fix the bugs still present and develop it furtherer"_.
+[**Digest**] (https://addons.mozilla.org/firefox/addon/digest/), a recent fork of Brief 1.7a1 _"aiming to update it for the modern Firefox versions, fix the bugs still present and develop it furtherer"_.
