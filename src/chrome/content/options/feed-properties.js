@@ -39,7 +39,9 @@ function setupWindow() {
 
     getElement('updated-entries-checkbox').checked = !gFeed.markModifiedEntriesUnread;
 
-    updateNavigationControls();
+    var index = getFeedIndex(gFeed);
+    getElement('next-feed').disabled = (index == Storage.getAllFeeds().length - 1);
+    getElement('previous-feed').disabled = (index == 0);
 }
 
 function showFeed(aDeltaIndex) {
@@ -89,20 +91,6 @@ function initUpdateIntervalControls() {
         menulist.selectedIndex = 0;
         textbox.value = Math.ceil(toMinutes);
     }
-}
-
-function updateNavigationControls() {
-    var urlTextbox = getElement('feed-url-textbox');
-    var urlIsValid = false;
-    try {
-        Services.io.newURI(urlTextbox.value, null, null);
-        urlIsValid = true;
-    } catch (ex) { }
-    var feedIndex = getFeedIndex(gFeed);
-
-    getElement('next-feed').disabled = !urlIsValid || (feedIndex == Storage.getAllFeeds().length - 1);
-    getElement('previous-feed').disabled = !urlIsValid || (feedIndex == 0);
-    document.documentElement.getButton('accept').disabled = !urlIsValid;
 }
 
 function onExpirationCheckboxCmd(aEvent) {
@@ -164,18 +152,10 @@ function saveChanges() {
 
 function saveLivemarksData() {
     var nameTextbox = getElement('feed-name-textbox');
-    var urlTextbox = getElement('feed-url-textbox');
 
     var bookmarksService = Cc['@mozilla.org/browser/nav-bookmarks-service;1'].
                            getService(Ci.nsINavBookmarksService);
-    var livemarkService =  Cc['@mozilla.org/browser/livemark-service;2'].
-                           getService(Ci.nsILivemarkService);
 
     if (gFeed.title != nameTextbox.value)
         bookmarksService.setItemTitle(gFeed.bookmarkID, nameTextbox.value);
-
-    if (gFeed.feedURL != urlTextbox.value) {
-        var uri = Services.io.newURI(urlTextbox.value, null, null);
-        livemarkService.setFeedURI(gFeed.bookmarkID, uri);
-    }
 }
