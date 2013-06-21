@@ -17,6 +17,8 @@ Install
 
 Check the [wiki's Downloads] (https://github.com/KerSp66zQAx/brief/wiki/Downloads) page.
 
+**Latest development version is still incompatible with Firefox 22** ([More info] (https://github.com/KerSp66zQAx/brief/issues/4)).
+
 
 Contribute
 ----------
