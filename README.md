@@ -7,9 +7,11 @@ Brief ![] (src/chrome/skin/toolbarbutton.png)
 About
 -----
 
-Because of the UI changes brought by its major release 1.6 (a regression in usability, for some people), this **independent fork** tries to keep Brief 1.5.4 compatible with the current Firefox releases. Some minor enhancements can to land too.
+Because of the UI changes brought by its major release 1.6 (a regression in usability, for some people), this **independent fork** does the old Brief 1.5.4 compatible with more recent Firefox releases. Some minor enhancements landed too. 
 
 It's all shared under the [MPL 2.0] (http://www.mozilla.org/MPL/2.0/ "Mozilla Public License, version 2.0").
+
+Note that because the [changes brought by Firefox 22] (https://bugzilla.mozilla.org/show_bug.cgi?id=834457), the compatibility was broken in a hard way and the **development was dropped**.
 
 
 Install
@@ -17,16 +19,7 @@ Install
 
 Check the [wiki's Downloads] (https://github.com/KerSp66zQAx/brief/wiki/Downloads) page.
 
-**Latest development version is still incompatible with Firefox 22** ([More info] (https://github.com/KerSp66zQAx/brief/issues/4)).
-
-
-Contribute
-----------
-
- * Report issues or suggest changes in the [tracker] (https://github.com/KerSp66zQAx/brief/issues).
- * [Fork] (https://help.github.com/articles/fork-a-repo) the repository and [propose patches] (https://help.github.com/articles/using-pull-requests).
-
-Or simply spread the word.
+**Last development snapshot is incompatible with Firefox 22 and later** ([More info] (https://github.com/KerSp66zQAx/brief/issues/4)).
 
 
 See Also
